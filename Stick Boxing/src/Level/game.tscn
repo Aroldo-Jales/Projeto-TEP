@@ -1,0 +1,133 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://src/Actor/Player1.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/Level/backgroud.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Level/game.gd" type="Script" id=3]
+[ext_resource path="res://src/Actor/Player2.tscn" type="PackedScene" id=4]
+[ext_resource path="res://resources/HUD/lifeBarA3.png" type="Texture" id=5]
+[ext_resource path="res://resources/HUD/lifeBarAF2.png" type="Texture" id=6]
+[ext_resource path="res://resources/HUD/lifeBarAF.png" type="Texture" id=7]
+[ext_resource path="res://resources/HUD/nomeAF.png" type="Texture" id=8]
+[ext_resource path="res://src/Level/ResultP1.gd" type="Script" id=9]
+[ext_resource path="res://src/Level/ResultP2.gd" type="Script" id=10]
+[ext_resource path="res://resources/HUD/botaoHoverAF.png" type="Texture" id=11]
+[ext_resource path="res://resources/HUD/botaoNormalAF.png" type="Texture" id=12]
+[ext_resource path="res://src/Level/Menu.gd" type="Script" id=13]
+[ext_resource path="res://resources/HUD/botaoPressedAF.png" type="Texture" id=14]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="Background" parent="." instance=ExtResource( 2 )]
+
+[node name="Player1" parent="." instance=ExtResource( 1 )]
+position = Vector2( 290, 480 )
+
+[node name="Player2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 760, 480 )
+scale = Vector2( -1, 1 )
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="HealthP1" type="TextureProgress" parent="HUD"]
+margin_left = 100.0
+margin_top = 80.0
+margin_right = 340.0
+margin_bottom = 102.0
+value = 100.0
+texture_under = ExtResource( 6 )
+texture_over = ExtResource( 5 )
+texture_progress = ExtResource( 7 )
+
+[node name="HealthP2" type="TextureProgress" parent="HUD"]
+margin_left = 720.0
+margin_top = 80.0
+margin_right = 960.0
+margin_bottom = 102.0
+value = 100.0
+texture_under = ExtResource( 6 )
+texture_over = ExtResource( 5 )
+texture_progress = ExtResource( 7 )
+fill_mode = 1
+
+[node name="NameP1" type="TextureRect" parent="HUD"]
+margin_left = 100.0
+margin_top = 104.0
+margin_right = 220.0
+margin_bottom = 144.0
+texture = ExtResource( 8 )
+
+[node name="Label" type="Label" parent="HUD/NameP1"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 55.0
+margin_bottom = 18.0
+text = "Player 1"
+
+[node name="NameP2" type="TextureRect" parent="HUD"]
+margin_left = 832.0
+margin_top = 104.0
+margin_right = 952.0
+margin_bottom = 144.0
+texture = ExtResource( 8 )
+flip_h = true
+
+[node name="Label" type="Label" parent="HUD/NameP2"]
+margin_left = 64.0
+margin_top = 4.0
+margin_right = 115.0
+margin_bottom = 18.0
+text = "Player 2"
+
+[node name="ResultP1" type="Label" parent="HUD"]
+visible = false
+margin_left = 304.0
+margin_top = 208.0
+margin_right = 672.0
+margin_bottom = 352.0
+text = "Player 1 Wins"
+align = 1
+valign = 1
+uppercase = true
+script = ExtResource( 9 )
+
+[node name="ResultP2" type="Label" parent="HUD"]
+visible = false
+margin_left = 366.0
+margin_top = 192.0
+margin_right = 640.0
+margin_bottom = 344.0
+text = "Player 2 Wins"
+align = 1
+valign = 1
+uppercase = true
+script = ExtResource( 10 )
+
+[node name="Menu" type="TextureButton" parent="HUD"]
+visible = false
+margin_left = 432.0
+margin_top = 248.0
+margin_right = 582.0
+margin_bottom = 288.0
+texture_normal = ExtResource( 12 )
+texture_pressed = ExtResource( 14 )
+texture_hover = ExtResource( 11 )
+script = ExtResource( 13 )
+
+[node name="Label" type="Label" parent="HUD/Menu"]
+margin_left = 55.0
+margin_top = 12.0
+margin_right = 95.0
+margin_bottom = 26.0
+text = "Menu"
+align = 1
+valign = 1
+uppercase = true
+
+[connection signal="lostFight" from="Player1" to="." method="_on_Player1_lostFight"]
+[connection signal="lostFight" from="Player1" to="HUD/ResultP2" method="_on_Player1_lostFight"]
+[connection signal="lostFight" from="Player1" to="HUD/Menu" method="_on_Player1_lostFight"]
+[connection signal="lostFight" from="Player2" to="." method="_on_Player2_lostFight"]
+[connection signal="lostFight" from="Player2" to="HUD/ResultP1" method="_on_Player2_lostFight"]
+[connection signal="lostFight" from="Player2" to="HUD/Menu" method="_on_Player2_lostFight"]
+[connection signal="pressed" from="HUD/Menu" to="HUD/Menu" method="_on_Menu_pressed"]

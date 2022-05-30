@@ -1,0 +1,130 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://resources/HUD/botaoHoverAF.png" type="Texture" id=1]
+[ext_resource path="res://src/Level/MenuPlay.gd" type="Script" id=2]
+[ext_resource path="res://resources/Backgrouds/ring_backgroud.png" type="Texture" id=3]
+[ext_resource path="res://resources/HUD/botaoNormalAF.png" type="Texture" id=4]
+[ext_resource path="res://resources/HUD/botaoPressedAF.png" type="Texture" id=5]
+[ext_resource path="res://resources/Backgrouds/black - 1024_600.png" type="Texture" id=6]
+[ext_resource path="res://src/Level/CloseMenu.gd" type="Script" id=7]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Black:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ ExtResource( 6 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Black:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "menu"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Black:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 6 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Black:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="Menu" type="Node2D"]
+
+[node name="Backgroud" type="Sprite" parent="."]
+position = Vector2( 511.25, 313.75 )
+scale = Vector2( 1.09472, 0.991433 )
+texture = ExtResource( 3 )
+
+[node name="Play" type="TextureButton" parent="."]
+margin_left = 424.0
+margin_top = 176.0
+margin_right = 574.0
+margin_bottom = 216.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="Label" type="Label" parent="Play"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 146.0
+margin_bottom = 36.0
+text = "Jogar"
+align = 1
+valign = 1
+
+[node name="Close" type="TextureButton" parent="."]
+margin_left = 424.0
+margin_top = 240.0
+margin_right = 574.0
+margin_bottom = 280.0
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+texture_hover = ExtResource( 1 )
+script = ExtResource( 7 )
+
+[node name="Label" type="Label" parent="Close"]
+margin_left = 54.0
+margin_top = 13.0
+margin_right = 96.0
+margin_bottom = 27.0
+text = "Fechar"
+align = 1
+valign = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.5
+
+[node name="Black" type="Sprite" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( -37, -29 )
+scale = Vector2( 1.06934, 1.09667 )
+texture = ExtResource( 6 )
+centered = false
+
+[node name="AnimationMenu" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 1 )
+anims/menu = SubResource( 2 )
+
+[connection signal="mouse_entered" from="Play" to="Play" method="_on_Play_mouse_entered"]
+[connection signal="pressed" from="Play" to="Play" method="_on_Play_pressed"]
+[connection signal="pressed" from="Play" to="Close" method="_on_Play_pressed"]
+[connection signal="pressed" from="Close" to="Close" method="_on_Close_pressed"]
+[connection signal="timeout" from="Timer" to="Play" method="_on_Timer_timeout"]
