@@ -1,13 +1,10 @@
-[gd_resource type="TileSet" load_steps=3 format=2]
-
-[ext_resource path="res://tilemap.png" type="Texture" id=1]
+[gd_resource type="TileSet" load_steps=2 format=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 30.5, 34 )
 
 [resource]
 0/name = "Sprite"
-0/texture = ExtResource( 1 )
 0/tex_offset = Vector2( 0, 0 )
 0/modulate = Color( 1, 1, 1, 1 )
 0/region = Rect2( 0, 0, 61, 68 )
@@ -28,7 +25,6 @@ extents = Vector2( 30.5, 34 )
 } ]
 0/z_index = 0
 1/name = "Sprite2"
-1/texture = ExtResource( 1 )
 1/tex_offset = Vector2( 0, 0 )
 1/modulate = Color( 1, 1, 1, 1 )
 1/region = Rect2( 0, 68, 61, 68 )

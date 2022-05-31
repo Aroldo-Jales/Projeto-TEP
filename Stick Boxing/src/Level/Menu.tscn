@@ -71,9 +71,9 @@ scale = Vector2( 1.09472, 0.991433 )
 texture = ExtResource( 3 )
 
 [node name="Play" type="TextureButton" parent="."]
-margin_left = 424.0
+margin_left = 440.0
 margin_top = 176.0
-margin_right = 574.0
+margin_right = 590.0
 margin_bottom = 216.0
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 5 )
@@ -88,11 +88,12 @@ margin_bottom = 36.0
 text = "Jogar"
 align = 1
 valign = 1
+uppercase = true
 
 [node name="Close" type="TextureButton" parent="."]
-margin_left = 424.0
+margin_left = 440.0
 margin_top = 240.0
-margin_right = 574.0
+margin_right = 590.0
 margin_bottom = 280.0
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 5 )
@@ -100,13 +101,14 @@ texture_hover = ExtResource( 1 )
 script = ExtResource( 7 )
 
 [node name="Label" type="Label" parent="Close"]
-margin_left = 54.0
-margin_top = 13.0
-margin_right = 96.0
-margin_bottom = 27.0
+margin_left = 48.0
+margin_top = 12.0
+margin_right = 97.0
+margin_bottom = 26.0
 text = "Fechar"
 align = 1
 valign = 1
+uppercase = true
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 1.5

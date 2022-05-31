@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 onready var playerSprite = $PlayerSprite
 onready var attackCollision = $AttackArea/AttackCollision
+onready var playerCollision = $PlayerCollision
 var hit = preload("res://src/Level/Hit.tscn")
 
 const velocity = 200
@@ -10,6 +11,7 @@ const damage = 10
 var health = 100
 var movement = Vector2()
 var isAttacking = false
+var isDodge = false
 var isTakingDamage = false
 var winFight = 0
 signal lostFight
@@ -18,9 +20,12 @@ signal lostFight
 func animationPlayer(var animation):
 	return playerSprite.play(animation)
 
+
 func takeDamage():
 	isTakingDamage = true
+	
 	$Timer.start()
+
 
 func isDead(var health):
 	if health <= 0:
@@ -30,42 +35,54 @@ func isDead(var health):
 func _ready():
 	animationPlayer("Idle")
 
+
 func _physics_process(delta):
 	if !isDead(health):
-		if Input.is_action_pressed("right") \
+		if Input.is_action_pressed("p1_right") \
 		&& isAttacking == false \
 		&& isTakingDamage == false:
 			movement.x = velocity
 			playerSprite.flip_h == false
+			playerCollision.disabled = false
 			animationPlayer("Walk")
-		elif Input.is_action_pressed("left") \
+		elif Input.is_action_pressed("p1_left") \
 		&& isAttacking == false \
 		&& isTakingDamage == false:
 			movement.x = -velocity
 			playerSprite.flip_h == true
+			playerCollision.disabled = false
 			animationPlayer("Walk")
+		elif Input.is_action_pressed("p1_down") \
+		&& isAttacking == false \
+		&& isTakingDamage == false\
+		&& movement.x == 0:
+			playerCollision.disabled = true
+			animationPlayer("Dodge")
+		
 		else:
 			movement.x = 0
 			if isAttacking == false && isTakingDamage == false:
+				playerCollision.disabled = false
 				animationPlayer("Idle")
 		
-		if Input.is_action_just_pressed("punchLow") \
+		if Input.is_action_just_pressed("p1_attack") \
 		&& isTakingDamage == false \
 		&& winFight != 1:
 			animationPlayer("Low Punch")
 			attackCollision.disabled = false
 			z_index = 1
 			isAttacking = true
-			
+		
 		if playerSprite.flip_h == true:
 			attackCollision.disabled = true
 			
 		if winFight == 1:
 			movement.x = 0
-			animationPlayer("Idle")	
+			animationPlayer("Idle")
+		
 	else:
 		attackCollision.disabled = true
-		animationPlayer("Dodge")
+		animationPlayer("Dying")
 		emit_signal("lostFight")
 		
 	movement = move_and_slide(movement, resistence)
@@ -73,12 +90,14 @@ func _physics_process(delta):
 
 func _on_PlayerSprite_animation_finished():
 	if playerSprite.animation == "Low Punch" \
-	or playerSprite.animation == "Taking Damage":
+	or playerSprite.animation == "Taking Damage" \
+	or playerSprite.animation == "Dodge":
 		if !isDead(health):
 			attackCollision.disabled = true
-			
+			playerCollision.disabled = false
 			isAttacking = false
 			isTakingDamage = false
+			isDodge = false
 
 
 func _on_AttackArea_body_entered(body):
@@ -96,6 +115,7 @@ func _on_Timer_timeout():
 		instance_hit.position.x += 20
 		instance_hit.position.y -= 50
 		get_tree().get_current_scene().add_child(instance_hit)
+		movement.x += 500
 	
 	get_node("../HUD/HealthP1").value -= damage
 

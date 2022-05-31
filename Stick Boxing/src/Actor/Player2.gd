@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 onready var playerSprite = $PlayerSprite
 onready var attackCollision = $AttackArea/AttackCollision
+onready var playerCollision = $PlayerCollision
 var hit = preload("res://src/Level/Hit.tscn")
 
 const velocity = 200
@@ -18,9 +19,11 @@ signal lostFight
 func animationPlayer(var animation):
 	return playerSprite.play(animation)
 
+
 func takeDamage():
 	isTakingDamage = true
 	$Timer.start()
+
 
 func isDead(var health):
 	if health <= 0:
@@ -30,6 +33,7 @@ func isDead(var health):
 func _ready():
 	animationPlayer("Idle")
 
+
 func _physics_process(delta):
 	if !isDead(health):
 		if Input.is_action_pressed("p2_right") \
@@ -37,16 +41,25 @@ func _physics_process(delta):
 		&& isTakingDamage == false:
 			movement.x = velocity
 			playerSprite.flip_h == false
+			playerCollision.disabled = false
 			animationPlayer("Walk")
 		elif Input.is_action_pressed("p2_left") \
 		&& isAttacking == false \
 		&& isTakingDamage == false:
 			movement.x = -velocity
 			playerSprite.flip_h == true
+			playerCollision.disabled = false
 			animationPlayer("Walk")
+		elif Input.is_action_pressed("p2_down") \
+		&& isAttacking == false \
+		&& isTakingDamage == false\
+		&& movement.x == 0:
+			playerCollision.disabled = true
+			animationPlayer("Dodge")
 		else:
 			movement.x = 0
 			if isAttacking == false && isTakingDamage == false:
+				playerCollision.disabled = false
 				animationPlayer("Idle")
 		
 		if Input.is_action_just_pressed("p2_attack") \
@@ -62,10 +75,11 @@ func _physics_process(delta):
 			
 		if winFight == 1:
 			movement.x = 0
-			animationPlayer("Idle")	
+			animationPlayer("Idle")
+			
 	else:
 		attackCollision.disabled = true
-		animationPlayer("Dodge")
+		animationPlayer("Dying")
 		emit_signal("lostFight")
 	movement = move_and_slide(movement, resistence)
 
@@ -97,9 +111,7 @@ func _on_Timer_timeout():
 	
 	get_node("../HUD/HealthP2").value -= damage
 
+
 func _on_Player1_lostFight():
 	winFight += 1
-
-
-
 

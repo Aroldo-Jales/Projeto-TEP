@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://src/Actor/Player1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/Level/backgroud.tscn" type="PackedScene" id=2]
@@ -14,6 +14,9 @@
 [ext_resource path="res://resources/HUD/botaoNormalAF.png" type="Texture" id=12]
 [ext_resource path="res://src/Level/Menu.gd" type="Script" id=13]
 [ext_resource path="res://resources/HUD/botaoPressedAF.png" type="Texture" id=14]
+[ext_resource path="res://src/Level/Rematch.gd" type="Script" id=15]
+
+[sub_resource type="Theme" id=1]
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 3 )
@@ -21,18 +24,18 @@ script = ExtResource( 3 )
 [node name="Background" parent="." instance=ExtResource( 2 )]
 
 [node name="Player1" parent="." instance=ExtResource( 1 )]
-position = Vector2( 290, 480 )
+position = Vector2( 216, 456 )
 
 [node name="Player2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 760, 480 )
+position = Vector2( 792, 456 )
 scale = Vector2( -1, 1 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="HealthP1" type="TextureProgress" parent="HUD"]
-margin_left = 100.0
+margin_left = 64.0
 margin_top = 80.0
-margin_right = 340.0
+margin_right = 304.0
 margin_bottom = 102.0
 value = 100.0
 texture_under = ExtResource( 6 )
@@ -51,9 +54,9 @@ texture_progress = ExtResource( 7 )
 fill_mode = 1
 
 [node name="NameP1" type="TextureRect" parent="HUD"]
-margin_left = 100.0
+margin_left = 64.0
 margin_top = 104.0
-margin_right = 220.0
+margin_right = 184.0
 margin_bottom = 144.0
 texture = ExtResource( 8 )
 
@@ -65,9 +68,9 @@ margin_bottom = 18.0
 text = "Player 1"
 
 [node name="NameP2" type="TextureRect" parent="HUD"]
-margin_left = 832.0
+margin_left = 840.0
 margin_top = 104.0
-margin_right = 952.0
+margin_right = 960.0
 margin_bottom = 144.0
 texture = ExtResource( 8 )
 flip_h = true
@@ -81,10 +84,10 @@ text = "Player 2"
 
 [node name="ResultP1" type="Label" parent="HUD"]
 visible = false
-margin_left = 304.0
-margin_top = 208.0
-margin_right = 672.0
-margin_bottom = 352.0
+margin_left = 320.0
+margin_top = 24.0
+margin_right = 704.0
+margin_bottom = 160.0
 text = "Player 1 Wins"
 align = 1
 valign = 1
@@ -93,10 +96,10 @@ script = ExtResource( 9 )
 
 [node name="ResultP2" type="Label" parent="HUD"]
 visible = false
-margin_left = 366.0
-margin_top = 192.0
-margin_right = 640.0
-margin_bottom = 344.0
+margin_left = 320.0
+margin_top = 16.0
+margin_right = 712.0
+margin_bottom = 168.0
 text = "Player 2 Wins"
 align = 1
 valign = 1
@@ -105,10 +108,10 @@ script = ExtResource( 10 )
 
 [node name="Menu" type="TextureButton" parent="HUD"]
 visible = false
-margin_left = 432.0
-margin_top = 248.0
-margin_right = 582.0
-margin_bottom = 288.0
+margin_left = 440.0
+margin_top = 240.0
+margin_right = 590.0
+margin_bottom = 280.0
 texture_normal = ExtResource( 12 )
 texture_pressed = ExtResource( 14 )
 texture_hover = ExtResource( 11 )
@@ -124,6 +127,28 @@ align = 1
 valign = 1
 uppercase = true
 
+[node name="Rematch" type="TextureButton" parent="HUD"]
+visible = false
+margin_left = 440.0
+margin_top = 176.0
+margin_right = 590.0
+margin_bottom = 216.0
+theme = SubResource( 1 )
+texture_normal = ExtResource( 12 )
+texture_pressed = ExtResource( 14 )
+texture_hover = ExtResource( 11 )
+script = ExtResource( 15 )
+
+[node name="Label" type="Label" parent="HUD/Rematch"]
+margin_left = 32.0
+margin_top = 13.0
+margin_right = 113.0
+margin_bottom = 27.0
+text = "Novamente"
+align = 1
+valign = 1
+uppercase = true
+
 [connection signal="lostFight" from="Player1" to="." method="_on_Player1_lostFight"]
 [connection signal="lostFight" from="Player1" to="HUD/ResultP2" method="_on_Player1_lostFight"]
 [connection signal="lostFight" from="Player1" to="HUD/Menu" method="_on_Player1_lostFight"]
@@ -131,3 +156,4 @@ uppercase = true
 [connection signal="lostFight" from="Player2" to="HUD/ResultP1" method="_on_Player2_lostFight"]
 [connection signal="lostFight" from="Player2" to="HUD/Menu" method="_on_Player2_lostFight"]
 [connection signal="pressed" from="HUD/Menu" to="HUD/Menu" method="_on_Menu_pressed"]
+[connection signal="pressed" from="HUD/Rematch" to="HUD/Rematch" method="_on_Rematch_pressed"]
