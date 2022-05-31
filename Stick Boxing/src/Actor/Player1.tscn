@@ -33,11 +33,6 @@ region = Rect2( 0, 0, 196, 166 )
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
-"frames": [ ExtResource( 7 ), ExtResource( 4 ) ],
-"loop": true,
-"name": "Idle",
-"speed": 5.0
-}, {
 "frames": [ ExtResource( 3 ), ExtResource( 2 ), ExtResource( 5 ) ],
 "loop": false,
 "name": "Dodge",
@@ -48,11 +43,6 @@ animations = [ {
 "name": "Dying",
 "speed": 5.0
 }, {
-"frames": [ ExtResource( 11 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 10 ), ExtResource( 1 ), ExtResource( 14 ) ],
-"loop": true,
-"name": "Walk",
-"speed": 8.0
-}, {
 "frames": [ ExtResource( 6 ), ExtResource( 8 ), ExtResource( 3 ) ],
 "loop": false,
 "name": "Low Punch",
@@ -61,6 +51,16 @@ animations = [ {
 "frames": [ SubResource( 6 ) ],
 "loop": false,
 "name": "Taking Damage",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 11 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 10 ), ExtResource( 1 ), ExtResource( 14 ) ],
+"loop": true,
+"name": "Walk",
+"speed": 8.0
+}, {
+"frames": [ ExtResource( 7 ), ExtResource( 4 ) ],
+"loop": true,
+"name": "Idle",
 "speed": 5.0
 } ]
 
@@ -76,8 +76,8 @@ script = ExtResource( 9 )
 [node name="PlayerSprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 0.998562, 1 )
 frames = SubResource( 1 )
-animation = "Dodge"
-frame = 2
+animation = "Idle"
+frame = 1
 playing = true
 
 [node name="PlayerCollision" type="CollisionShape2D" parent="."]
